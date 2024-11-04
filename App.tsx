@@ -8,6 +8,7 @@ import AnotherScreen from './componentes/Login';
 import LoginScreen from './componentes/Login';
 import HomeScreen from './componentes/Home';
 import Toast from 'react-native-toast-message';
+import JoinScreen from './componentes/Join';
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,11 @@ export default function App() {
           component={HomeScreen}
           options={{ title: 'Home Screen' }}
           />
+        <Stack.Screen
+          name="Join"
+          component={JoinScreen}
+          options={{ title: 'Join Screen' }}
+        />
       </Stack.Navigator>
       <Toast />
     </NavigationContainer>
