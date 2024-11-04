@@ -1,182 +1,129 @@
 import React from 'react';
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { LoginScreenNavigationProp } from './configuration';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const posts = [
-  {
-    id: '1',
-    username: 'john_doe',
-    imageUrl: 'https://via.placeholder.com/150',
-    likes: 120,
-    comments: 32,
-  },
-  {
-    id: '2',
-    username: 'jane_smith',
-    imageUrl: 'https://via.placeholder.com/150',
-    likes: 98,
-    comments: 20,
-  },
-  {
-    id: '3',
-    username: 'samuel_jackson',
-    imageUrl: 'https://via.placeholder.com/150',
-    likes: 200,
-    comments: 45,
-  },
+const events = [
+  { id: '1', title: 'Join us', description: 'Local market vibes', time: 'Starting', image: 'https://link.to/image1' },
+  { id: '2', title: 'Local', description: 'Discover local culture', time: 'Just now', image: 'https://link.to/image2' },
+  // Agrega más eventos aquí
 ];
 
-const HomeScreen = () => {
-  const renderItem = ({ item }: { item: typeof posts[0] }) => (
-    <View style={styles.postContainer}>
-      {/* Header del post con el nombre del usuario */}
-      <View style={styles.header}>
-        <Image source={{ uri: 'https://via.placeholder.com/50' }} style={styles.profileImage} />
-        <Text style={styles.username}>{item.username}</Text>
-      </View>
-
-      {/* Imagen del post */}
-      <Image source={{ uri: item.imageUrl }} style={styles.postImage} />
-
-      {/* Footer del post */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="heart-outline" size={24} color="#fff" />
-          <Text style={styles.iconText}>{item.likes}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="comment-outline" size={24} color="#fff" />
-          <Text style={styles.iconText}>{item.comments}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="share-outline" size={24} color="#fff" />
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-
-  return (
-    <View style={styles.container}>
-      {/* Header de la pantalla */}
-      <View style={styles.screenHeader}>
-        <Text style={styles.screenTitle}>Upcoming</Text>
-        <Icon name="account-circle" size={28} color="#fff" />
-      </View>
-
-      {/* Botones de filtro */}
-      <View style={styles.filterButtons}>
-        <TouchableOpacity style={styles.filterButton}>
-          <Text style={styles.filterButtonText}>Landscapes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.filterButton}>
-          <Text style={styles.filterButtonText}>Pets</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Lista de publicaciones */}
-      <FlatList
-        data={posts}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        contentContainerStyle={styles.listContent}
-      />
-      
-      {/* Footer de navegación */}
-      <View style={styles.bottomNavigation}>
-        <Icon name="home" size={28} color="#fff" />
-        <Icon name="magnify" size={28} color="#fff" />
-        <Icon name="plus-box" size={28} color="#fff" />
-        <Icon name="bell-outline" size={28} color="#fff" />
-        <Icon name="account-outline" size={28} color="#fff" />
-      </View>
-    </View>
-  );
+type RootStackParamList = {
+  Home: undefined;
+  Join: undefined;  // Asegúrate de que 'Join' esté aquí
 };
 
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+
+export default function HomeScreen() {
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+  return (
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Upcoming</Text>
+        <TouchableOpacity style={styles.profileIcon}>
+          <Image
+            source={{ uri: 'https://link.to/your-icon' }} // Cambia esta URL por la de tu ícono
+            style={styles.iconImage}
+          />
+        </TouchableOpacity>
+      </View>
+
+      {/* Tabs */}
+      <View style={styles.tabs}>
+        <Text style={[styles.tabText, styles.activeTab]}>Local meetups</Text>
+        <Text style={styles.tabText}>Explore local</Text>
+      </View>
+
+      {/* Join Button */}
+      <TouchableOpacity style={styles.joinButton}
+      onPress={() => navigation.navigate('Join')}>
+        <Text style={styles.joinButtonText}>Join now</Text>
+      </TouchableOpacity>
+
+      {/* Event List */}
+      <FlatList
+        data={events}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <Image source={{ uri: item.image }} style={styles.image} />
+            <View style={styles.cardContent}>
+              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.description}>{item.description}</Text>
+              <Text style={styles.time}>{item.time}</Text>
+            </View>
+          </View>
+        )}
+      />
+
+      {/* Footer Navigation */}
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.navButton}>
+          <Icon name="home-outline" size={24} color="#fff" />
+          <Text style={styles.navText}>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton}>
+          <Icon name="search-outline" size={24} color="#888" />
+          <Text style={styles.navText}>Search</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton}>
+          <Icon name="add-circle-outline" size={24} color="#888" />
+          <Text style={styles.navText}>Add</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton}>
+          <Icon name="chatbubble-outline" size={24} color="#888" />
+          <Text style={styles.navText}>Chat</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton}>
+          <Icon name="person-outline" size={24} color="#888" />
+          <Text style={styles.navText}>Profile</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#1c1c1e',
-  },
-  screenHeader: {
+  container: { flex: 1, backgroundColor: '#000' },
+  header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 15,
   },
-  screenTitle: {
-    fontSize: 20,
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  filterButtons: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingVertical: 10,
-  },
-  filterButton: {
-    backgroundColor: '#ff3b30',
-    paddingVertical: 6,
-    paddingHorizontal: 15,
-    borderRadius: 20,
-    marginHorizontal: 5,
-  },
-  filterButtonText: {
-    color: '#fff',
-    fontSize: 14,
-  },
-  listContent: {
-    paddingHorizontal: 20,
-  },
-  postContainer: {
-    backgroundColor: '#2c2c2e',
-    borderRadius: 10,
-    marginBottom: 20,
-    overflow: 'hidden',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-  },
-  profileImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 10,
-  },
-  username: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  postImage: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'cover',
-  },
-  footer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-  },
-  iconButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: 15,
-  },
-  iconText: {
-    color: '#fff',
-    marginLeft: 5,
-  },
-  bottomNavigation: {
+  headerTitle: { color: '#fff', fontSize: 24, fontWeight: 'bold' },
+  profileIcon: { width: 40, height: 40, borderRadius: 20, overflow: 'hidden' },
+  iconImage: { width: '100%', height: '100%' },
+  tabs: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingVertical: 10,
-    borderTopWidth: 1,
-    borderTopColor: '#333',
+    borderBottomWidth: 1,
+    borderBottomColor: '#333',
   },
+  tabText: { color: '#888', fontSize: 16 },
+  activeTab: { color: '#fff', fontWeight: 'bold', borderBottomWidth: 2, borderBottomColor: '#fff' },
+  joinButton: { backgroundColor: '#e63946', borderRadius: 5, padding: 10, margin: 20 },
+  joinButtonText: { color: '#fff', textAlign: 'center', fontWeight: 'bold' },
+  card: { backgroundColor: '#1a1a1a', borderRadius: 10, margin: 10, padding: 10 },
+  image: { width: '100%', height: 150, borderRadius: 10 },
+  cardContent: { padding: 5 },
+  title: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
+  description: { color: '#aaa', fontSize: 14 },
+  time: { color: '#aaa', fontSize: 12, textAlign: 'right' },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '#1a1a1a',
+    paddingVertical: 10,
+  },
+  navButton: { alignItems: 'center' },
+  navText: { color: '#888', fontSize: 12, marginTop: 2 },
 });
-
-export default HomeScreen;
