@@ -7,15 +7,25 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from './configuration';
 
-const events = [
+type Event = {
+  id: string;
+  title: string;
+  date: string;
+  description: string;
+  image: string;
+};
+
+const events: Event[] = [
   {
     id: '1',
     title: 'Farmers Market Weekend',
     date: 'Saturday, May 18, 2024, 9:00 AM - 2:00 PM',
     description:
       'Join us for a delightful day at the local farmers market, featuring fresh produce, artisanal goods, and live music in the heart of the city.',
-    image: 'https://via.placeholder.com/150', // Cambia esto por una URL real o recurso local
+    image: 'https://via.placeholder.com/150',
   },
   {
     id: '2',
@@ -25,18 +35,16 @@ const events = [
       'Gather with neighbors for a fun-filled picnic day at the central park. Enjoy great food and enjoy games and activities for all ages.',
     image: 'https://via.placeholder.com/150',
   },
-  {
-    id: '3',
-    title: 'Summer Street Fair',
-    date: 'Saturday, June 5, 2024, 10:00 AM - 6:00 PM',
-    description:
-      'Explore the annual street fair with a variety of vendors, food trucks, and entertainment for the whole family.',
-    image: 'https://via.placeholder.com/150',
-  },
 ];
 
-const OrganizerHome = () => {
-  const renderEvent = ({ item }: any) => (
+const OrganizerHomeScreen: React.FC = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const handleAddEvent = () => {
+    navigation.navigate('AddEvent'); // Navegamos a la pantalla AddEvent
+  };
+
+  const renderEvent = ({ item }: { item: Event }) => (
     <View style={styles.eventCard}>
       <Image source={{ uri: item.image }} style={styles.eventImage} />
       <View style={styles.eventDetails}>
@@ -51,7 +59,8 @@ const OrganizerHome = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>📅 Upcoming Events</Text>
-        <TouchableOpacity style={styles.addButton}>
+        <TouchableOpacity style={styles.addButton}
+          onPress={handleAddEvent}>
           <Text style={styles.addButtonText}>Add Event</Text>
         </TouchableOpacity>
       </View>
@@ -128,4 +137,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OrganizerHome; // Exportación por defecto
+export default OrganizerHomeScreen;
