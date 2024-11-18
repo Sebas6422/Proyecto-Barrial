@@ -1,31 +1,38 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect } from "react";
+import { View, Text, StyleSheet, Image, ActivityIndicator } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-const WelcomeScreen = () => {
-  const navigation = useNavigation();
+type RootStackParamList = {
+  Welcome: undefined;
+  Login: undefined;
+};
+
+type WelcomeScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "Welcome"
+>;
+
+type Props = {
+  navigation: WelcomeScreenNavigationProp;
+};
+
+const WelcomeScreen: React.FC<Props> = ({ navigation }) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.replace("Login"); // Cambia a la pantalla Login
+    }, 5000);
+
+    return () => clearTimeout(timer); // Limpia el temporizador al desmontar
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
-      {/* Imagen principal */}
-      <View style={styles.imageContainer}>
-        <Image
-          source={{ uri: 'https://example.com/your-image-url.jpg' }} // Reemplaza con la URL de tu imagen o usa una imagen local
-          style={styles.image}
-        />
-      </View>
-
-      {/* Texto de bienvenida */}
-      <Text style={styles.title}>NeighborlyEvents</Text>
-      <Text style={styles.subtitle}>
-        Discover and organize local events easily
-      </Text>
-
-      {/* Botón de acción */}
-      <TouchableOpacity style={styles.button} 
-      onPress={() => navigation.navigate("Login")}>
-        <Text style={styles.buttonText}>Join now</Text>
-      </TouchableOpacity>
+      <Image
+        source={require('../assets/Logo.png')} // Asegúrate de tener el logo en la ruta correcta
+        style={styles.logo}
+      />
+      <Text style={styles.appName}>Conexión Barrial</Text>
+      <ActivityIndicator size="large" color="#FF6B6B" style={styles.loader} />
     </View>
   );
 };
@@ -33,54 +40,23 @@ const WelcomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1c1c1e',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F8F8F8",
   },
-  imageContainer: {
-    position: 'relative',
+  logo: {
+    width: 120,
+    height: 120,
     marginBottom: 20,
   },
-  image: {
-    width: 200,
-    height: 200,
-    borderRadius: 20,
-  },
-  upgradeButton: {
-    position: 'absolute',
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 5,
-  },
-  upgradeText: {
-    color: '#fff',
-    fontSize: 12,
-  },
-  title: {
-    color: '#fff',
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  subtitle: {
-    color: '#bbb',
-    fontSize: 16,
-    textAlign: 'center',
-    paddingHorizontal: 20,
+  appName: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333",
     marginBottom: 30,
   },
-  button: {
-    backgroundColor: '#ff3b30',
-    paddingVertical: 10,
-    paddingHorizontal: 40,
-    borderRadius: 10,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+  loader: {
+    marginTop: 20,
   },
 });
 

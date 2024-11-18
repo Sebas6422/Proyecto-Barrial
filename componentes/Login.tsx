@@ -1,71 +1,72 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { LoginScreenNavigationProp } from './configuration';
-import Toast from 'react-native-simple-toast';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from './configuration';
+import { MaterialIcons } from "@expo/vector-icons";
 
-type Props = {
-  navigation: LoginScreenNavigationProp;
-};
+type LoginScreenProps = StackScreenProps<RootStackParamList, 'Login'>;
 
-const LoginScreen: React.FC<Props> = ({ navigation }) => {
+const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordVisible, setPasswordVisible] = useState(false);
-
-  const validEmail = 'user@example.com';
-  const validPassword = '123456';
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = () => {
-    if (email === validEmail && password === validPassword) {
-      navigation.navigate('Home');
+    if (email === 'user@community.com' && password === 'password123') {
+      navigation.navigate('CommunityHome'); // Redirige a CommunityHome
+    } else if (email === 'admin@events.com' && password === 'password123') {
+      navigation.navigate('OrganizerHome'); // Redirige a OrganizerHome
     } else {
-      Toast.show('Invalid email or password', Toast.SHORT);
+      Alert.alert('Error', 'Credenciales incorrectas');
     }
   };
 
   return (
     <View style={styles.container}>
-      <Image
-        source={{ uri: 'https://via.placeholder.com/150' }}
-        style={styles.logo}
-      />
-      <Text style={styles.title}>NeighborlyEvents</Text>
-      
+      <Text style={styles.logo}>👥 Conexión Barrial</Text>
+
+      {/* Campo de correo */}
       <TextInput
-        placeholder="Enter your email"
-        placeholderTextColor="#aaa"
         style={styles.input}
-        keyboardType="email-address"
-        autoCapitalize="none"
+        placeholder="Username"
         value={email}
         onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
       />
 
+      {/* Campo de contraseña con el "ojito" */}
       <View style={styles.passwordContainer}>
         <TextInput
-          placeholder="Enter your password"
-          placeholderTextColor="#aaa"
-          secureTextEntry={!passwordVisible}
           style={styles.passwordInput}
+          placeholder="Password"
           value={password}
           onChangeText={setPassword}
+          secureTextEntry={!showPassword}
         />
-        <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)}>
-          <Icon
-            name={passwordVisible ? 'eye-off' : 'eye'}
+        <TouchableOpacity
+          onPress={() => setShowPassword(!showPassword)}
+          style={styles.eyeIcon}
+        >
+          <MaterialIcons
+            name={showPassword ? "visibility" : "visibility-off"}
             size={24}
-            color="#aaa"
+            color="gray"
           />
         </TouchableOpacity>
       </View>
-      
-      <TouchableOpacity>
-        <Text style={styles.forgotPassword}>Forgot your password?</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity style={styles.signInButton} onPress={handleLogin}>
-        <Text style={styles.signInText}>Sign In</Text>
+
+      <View style={styles.linkContainer}>
+        <Text style={styles.link} onPress={() => Alert.alert("Recuperar contraseña")}>
+          Forgot Password?
+        </Text>
+        <Text style={styles.link} onPress={() => Alert.alert("Registrar usuario")}>
+          New User? Register
+        </Text>
+      </View>
+
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
     </View>
   );
@@ -74,63 +75,67 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1c1c1e',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F8F8F8",
+    padding: 20,
   },
   logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 20,
-    borderRadius: 10,
-  },
-  title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: "bold",
+    color: "#FF0000",
     marginBottom: 40,
   },
   input: {
-    width: '100%',
+    width: "100%",
     height: 50,
-    backgroundColor: '#333',
+    borderWidth: 1,
+    borderColor: "#ccc",
     borderRadius: 10,
-    paddingHorizontal: 15,
-    color: '#fff',
+    paddingHorizontal: 10,
     marginBottom: 15,
   },
   passwordContainer: {
-    flexDirection: 'row',
-    width: '100%',
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
     height: 50,
-    backgroundColor: '#333',
+    borderWidth: 1,
+    borderColor: "#ccc",
     borderRadius: 10,
-    alignItems: 'center',
-    paddingHorizontal: 15,
     marginBottom: 15,
   },
   passwordInput: {
     flex: 1,
-    color: '#fff',
+    paddingHorizontal: 10,
+    height: "100%",
   },
-  forgotPassword: {
-    color: '#aaa',
-    alignSelf: 'flex-end',
+  eyeIcon: {
+    paddingHorizontal: 10,
+  },
+  linkContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
     marginBottom: 20,
   },
-  signInButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#ff3b30',
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+  link: {
+    color: "#FF0000",
+    textDecorationLine: "underline",
+    fontSize: 14,
   },
-  signInText: {
-    color: '#fff',
+  button: {
+    backgroundColor: "#FF0000",
+    width: "100%",
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 
