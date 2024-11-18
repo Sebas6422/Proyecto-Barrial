@@ -7,14 +7,15 @@ import WelcomeScreen from './componentes/welcom';
 import LoginScreen from './componentes/Login';
 import CommunityHomeScreen from './componentes/CommunityHome';
 import OrganizerHomeScreen from './componentes/OrganizerHome';
+import AddEventScreen from './componentes/AddEvent';
 
 type RootStackParamList = {
   Welcome: undefined;
   Login: undefined;
   CommunityHome: undefined;
   OrganizerHome: undefined;
+  AddEvent: undefined;
 };
-
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
 
@@ -23,7 +24,6 @@ function OrganizerTabs() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
-          // Mapear nombres de rutas a nombres válidos de iconos de Ionicons
           let iconName: keyof typeof Ionicons.glyphMap;
 
           switch (route.name) {
@@ -40,7 +40,7 @@ function OrganizerTabs() {
               iconName = 'person';
               break;
             default:
-              iconName = 'help'; // Icono predeterminado en caso de error
+              iconName = 'help';
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -81,6 +81,11 @@ export default function App() {
           name="OrganizerHome"
           component={OrganizerTabs} // Ahora OrganizerHome contiene las tabs
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AddEvent"
+          component={AddEventScreen}
+          options={{ headerShown: true, title: 'Add Event' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
