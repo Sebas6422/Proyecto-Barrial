@@ -1,10 +1,12 @@
 {
   "expo": {
-    "name": "Proyecto-Barrial",
+    "name": "Proyecto Barrial",
     "slug": "Proyecto-Barrial",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "platforms": ["android", "ios"],
+    "sdkVersion": "48.0.0",
+    "icon": "./assets/Logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -23,10 +25,17 @@
         "CAMERA",
         "WRITE_EXTERNAL_STORAGE",
         "READ_EXTERNAL_STORAGE"
-      ]
+      ],
+      "userInterfaceStyle": "automatic",
+      "package": "com.sebas_6422.ProyectoBarrial"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3fcd45e2-b8fc-4cf5-a253-6495b47e724b"
+      }
     }
   }
 }
