@@ -9,13 +9,17 @@ import CommunityHomeScreen from './componentes/CommunityHome';
 import OrganizerHomeScreen from './componentes/OrganizerHome';
 import AddEventScreen from './componentes/AddEvent';
 import { EventProvider } from './componentes/EventContext';
+import EventDetailsScreen from './componentes/EventDetailScreen';
+import UserProfileScreen from './componentes/UserProfileScreen';
 
 type RootStackParamList = {
   Welcome: undefined;
   Login: undefined;
   CommunityHome: undefined;
   OrganizerHome: undefined;
+  UserProfileScreen: undefined;
   AddEvent: undefined;
+  EventDetails: { eventId: string; eventTitle: string; eventDescription: string }; // Nueva pantalla
 };
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -54,7 +58,7 @@ function OrganizerTabs() {
       <Tab.Screen name="Home" component={CommunityHomeScreen} />
       <Tab.Screen name="Events" component={OrganizerHomeScreen} />
       <Tab.Screen name="Tasks" component={OrganizerHomeScreen} />
-      <Tab.Screen name="Profile" component={OrganizerHomeScreen} />
+      <Tab.Screen name="Profile" component={UserProfileScreen} />
     </Tab.Navigator>
   );
 }
@@ -88,6 +92,11 @@ export default function App() {
             name="AddEvent"
             component={AddEventScreen}
             options={{ headerShown: true, title: 'Add Event' }}
+          />
+          <Stack.Screen 
+            name="EventDetails" 
+            component={EventDetailsScreen} 
+            options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>
