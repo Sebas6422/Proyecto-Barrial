@@ -1,10 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 
 const CommunityHome = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Bienvenido a la pantalla de la Comunidad</Text>
+      {/* Imagen central */}
+      <Image source={require('../assets/Welcom.jpg')} style={styles.image} />
+      {/* Mensaje de bienvenida */}
+      <Text style={styles.text}>Bienvenido a la Comunidad</Text>
     </View>
   );
 };
@@ -16,10 +19,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F8F8F8',
   },
+  image: {
+    width: 200, // Ajusta el tamaño de la imagen
+    height: 200,
+    marginBottom: 20, // Espacio entre la imagen y el texto
+  },
   text: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
+    color: '#333',
   },
 });
 
-export default CommunityHome; // Exportación por defecto
+export default CommunityHome;

@@ -22,14 +22,23 @@ const OrganizerHomeScreen: React.FC = () => {
   };
 
   const renderEvent = ({ item }: { item: Event }) => (
-    <View style={styles.eventCard}>
+    <TouchableOpacity
+     style={styles.eventCard}
+     onPress={() => 
+      navigation.navigate('EventDetails', {
+        eventId: item.id,
+        eventTitle: item.title,
+        eventDescription: item.description
+      })
+     }
+     >
       <Image source={ item.image } style={styles.eventImage} />
       <View style={styles.eventDetails}>
         <Text style={styles.eventTitle}>{item.title}</Text>
         <Text style={styles.eventDate}>{item.date}</Text>
         <Text style={styles.eventDescription}>{item.description}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
