@@ -6,9 +6,11 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import * as ImagePicker from 'expo-image-picker';
 
 const AddEventScreen = () => {
   const [title, setTitle] = useState('');
@@ -18,10 +20,30 @@ const AddEventScreen = () => {
   const [endDate, setEndDate] = useState(new Date());
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
+  const [thumbnail, setThumbnail] = useState<string | null>(null); // Para almacenar la imagen seleccionada
+  const [pastEventImage, setPastEventImage] = useState<string | null>(null); // Para almacenar una sola imagen de Past Events
 
   const handleCreateEvent = () => {
-    // Aquí manejarías la lógica para guardar el evento
-    console.log({ title, description, seats, startDate, endDate });
+    console.log({ title, description, seats, startDate, endDate, thumbnail, pastEventImage });
+  };
+
+  const handleImageSelection = async (updateState: (value: string | null) => void) => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permissionResult.granted) {
+      alert('Se necesita permiso para acceder a la galería.');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      updateState(result.assets[0].uri ?? null); // Guardar la URI de la imagen
+    }
   };
 
   return (
@@ -39,13 +61,28 @@ const AddEventScreen = () => {
       {/* Subida de fotos */}
       <Text style={styles.sectionHeader}>Add Photos</Text>
       <View style={styles.photoContainer}>
-        <TouchableOpacity style={styles.photoBox}>
-          <Ionicons name="add" size={32} color="#FF6B6B" />
-          <Text style={styles.photoText}>Thumbnail</Text>
+        {/* Thumbnail */}
+        <TouchableOpacity
+          style={styles.photoBox}
+          onPress={() => handleImageSelection(setThumbnail)}
+        >
+          {thumbnail ? (
+            <Image source={{ uri: thumbnail }} style={styles.imagePreview} />
+          ) : (
+            <Text style={styles.photoText}>+ Thumbnail</Text>
+          )}
         </TouchableOpacity>
-        <TouchableOpacity style={styles.photoBox}>
-          <Ionicons name="add" size={32} color="#FF6B6B" />
-          <Text style={styles.photoText}>Past Events</Text>
+
+        {/* Past Events */}
+        <TouchableOpacity
+          style={styles.photoBox}
+          onPress={() => handleImageSelection(setPastEventImage)}
+        >
+          {pastEventImage ? (
+            <Image source={{ uri: pastEventImage }} style={styles.imagePreview} />
+          ) : (
+            <Text style={styles.photoText}>+ Past Events</Text>
+          )}
         </TouchableOpacity>
       </View>
 
@@ -76,9 +113,7 @@ const AddEventScreen = () => {
         onPress={() => setShowStartPicker(true)}
       >
         <Ionicons name="calendar" size={24} color="#FF6B6B" />
-        <Text style={styles.dateText}>
-          {startDate.toDateString()}
-        </Text>
+        <Text style={styles.dateText}>{startDate.toDateString()}</Text>
       </TouchableOpacity>
       {showStartPicker && (
         <DateTimePicker
@@ -98,9 +133,7 @@ const AddEventScreen = () => {
         onPress={() => setShowEndPicker(true)}
       >
         <Ionicons name="calendar" size={24} color="#FF6B6B" />
-        <Text style={styles.dateText}>
-          {endDate.toDateString()}
-        </Text>
+        <Text style={styles.dateText}>{endDate.toDateString()}</Text>
       </TouchableOpacity>
       {showEndPicker && (
         <DateTimePicker
@@ -172,6 +205,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 14,
     color: '#666',
+  },
+  imagePreview: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 8,
   },
   datePicker: {
     flexDirection: 'row',

@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  ImageSourcePropType,
 } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from './configuration';
@@ -15,7 +16,7 @@ type Event = {
   title: string;
   date: string;
   description: string;
-  image: string;
+  image: ImageSourcePropType;
 };
 
 const events: Event[] = [
@@ -25,7 +26,7 @@ const events: Event[] = [
     date: 'Saturday, May 18, 2024, 9:00 AM - 2:00 PM',
     description:
       'Join us for a delightful day at the local farmers market, featuring fresh produce, artisanal goods, and live music in the heart of the city.',
-    image: 'https://via.placeholder.com/150',
+    image: require('../assets/salud.jpg'),
   },
   {
     id: '2',
@@ -33,7 +34,7 @@ const events: Event[] = [
     date: 'Sunday, May 22, 2024, 12:00 PM - 4:00 PM',
     description:
       'Gather with neighbors for a fun-filled picnic day at the central park. Enjoy great food and enjoy games and activities for all ages.',
-    image: 'https://via.placeholder.com/150',
+    image: require('../assets/remodelacion.jpg'),
   },
 ];
 
@@ -46,7 +47,7 @@ const OrganizerHomeScreen: React.FC = () => {
 
   const renderEvent = ({ item }: { item: Event }) => (
     <View style={styles.eventCard}>
-      <Image source={{ uri: item.image }} style={styles.eventImage} />
+      <Image source={ item.image } style={styles.eventImage} />
       <View style={styles.eventDetails}>
         <Text style={styles.eventTitle}>{item.title}</Text>
         <Text style={styles.eventDate}>{item.date}</Text>
