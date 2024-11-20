@@ -8,6 +8,7 @@ import LoginScreen from './componentes/Login';
 import CommunityHomeScreen from './componentes/CommunityHome';
 import OrganizerHomeScreen from './componentes/OrganizerHome';
 import AddEventScreen from './componentes/AddEvent';
+import { EventProvider } from './componentes/EventContext';
 
 type RootStackParamList = {
   Welcome: undefined;
@@ -60,34 +61,36 @@ function OrganizerTabs() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Welcome">
-        <Stack.Screen
-          name="Welcome"
-          component={WelcomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="CommunityHome"
-          component={CommunityHomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="OrganizerHome"
-          component={OrganizerTabs} // Ahora OrganizerHome contiene las tabs
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="AddEvent"
-          component={AddEventScreen}
-          options={{ headerShown: true, title: 'Add Event' }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <EventProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Welcome">
+          <Stack.Screen
+            name="Welcome"
+            component={WelcomeScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="CommunityHome"
+            component={CommunityHomeScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="OrganizerHome"
+            component={OrganizerTabs} // Ahora OrganizerHome contiene las tabs
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="AddEvent"
+            component={AddEventScreen}
+            options={{ headerShown: true, title: 'Add Event' }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </EventProvider>
   );
 }

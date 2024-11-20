@@ -10,36 +10,12 @@ import {
 } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from './configuration';
-
-type Event = {
-  id: string;
-  title: string;
-  date: string;
-  description: string;
-  image: ImageSourcePropType;
-};
-
-const events: Event[] = [
-  {
-    id: '1',
-    title: 'Farmers Market Weekend',
-    date: 'Saturday, May 18, 2024, 9:00 AM - 2:00 PM',
-    description:
-      'Join us for a delightful day at the local farmers market, featuring fresh produce, artisanal goods, and live music in the heart of the city.',
-    image: require('../assets/salud.jpg'),
-  },
-  {
-    id: '2',
-    title: 'Community Picnic',
-    date: 'Sunday, May 22, 2024, 12:00 PM - 4:00 PM',
-    description:
-      'Gather with neighbors for a fun-filled picnic day at the central park. Enjoy great food and enjoy games and activities for all ages.',
-    image: require('../assets/remodelacion.jpg'),
-  },
-];
+import { useEventContext } from './EventContext';
+import { Event } from './EventContext';
 
 const OrganizerHomeScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const { events } = useEventContext();
 
   const handleAddEvent = () => {
     navigation.navigate('AddEvent'); // Navegamos a la pantalla AddEvent
