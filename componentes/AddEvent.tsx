@@ -11,8 +11,12 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
+import { useNavigation } from '@react-navigation/native';
+import { useEventContext } from './EventContext';
 
 const AddEventScreen = () => {
+  const { addEvent } = useEventContext();
+  const navigation = useNavigation();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [seats, setSeats] = useState('');
@@ -20,29 +24,46 @@ const AddEventScreen = () => {
   const [endDate, setEndDate] = useState(new Date());
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
-  const [thumbnail, setThumbnail] = useState<string | null>(null); // Para almacenar la imagen seleccionada
-  const [pastEventImage, setPastEventImage] = useState<string | null>(null); // Para almacenar una sola imagen de Past Events
+  const [thumbnail, setThumbnail] = useState<string | undefined>(undefined);
+  const [pastEventImage, setPastEventImage] = useState<string | undefined>(undefined);
+
 
   const handleCreateEvent = () => {
-    console.log({ title, description, seats, startDate, endDate, thumbnail, pastEventImage });
+    if (!title || !description) {
+      alert('Por favor, completa todos los campos requeridos.');
+      return;
+    }
+  
+    const newEvent = {
+      id: Math.random().toString(),
+      title,
+      date: `${startDate.toDateString()} - ${endDate.toDateString()}`,
+      description,
+      image: thumbnail ? { uri: thumbnail } : require('../assets/default-image.jpeg'), // Imagen predeterminada si no hay thumbnail
+    };
+  
+    addEvent(newEvent); // Agregar al contexto
+    navigation.goBack(); // Volver a la pantalla anterior
   };
 
-  const handleImageSelection = async (updateState: (value: string | null) => void) => {
+  const handleImageSelection = async (updateState: (value: string | undefined) => void) => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
+  
     if (!permissionResult.granted) {
       alert('Se necesita permiso para acceder a la galería.');
       return;
     }
-
+  
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       quality: 1,
     });
-
-    if (!result.canceled) {
-      updateState(result.assets[0].uri ?? null); // Guardar la URI de la imagen
+  
+    if (!result.canceled && result.assets[0]?.uri) {
+      updateState(result.assets[0].uri); // Pasamos el URI como string
+    } else {
+      updateState(undefined); // Pasamos undefined si no se seleccionó una imagen
     }
   };
 
