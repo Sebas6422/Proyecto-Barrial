@@ -12,6 +12,7 @@ import { EventProvider } from './componentes/EventContext';
 import EventDetailsScreen from './componentes/EventDetailScreen';
 import UserProfileScreen from './componentes/UserProfileScreen';
 import TaskListScreen from './componentes/InitialTask';
+import ResourceManagementScreen from './componentes/ResourceManagement';
 
 type RootStackParamList = {
   Welcome: undefined;
@@ -43,6 +44,9 @@ function OrganizerTabs() {
             case 'Tasks':
               iconName = 'list';
               break;
+            case 'Management':
+              iconName = 'stats-chart';
+              break;
             case 'Profile':
               iconName = 'person';
               break;
@@ -60,6 +64,7 @@ function OrganizerTabs() {
       <Tab.Screen name="Home" component={CommunityHomeScreen} />
       <Tab.Screen name="Events" component={OrganizerHomeScreen} />
       <Tab.Screen name="Tasks" component={TaskListScreen} />
+      <Tab.Screen name="Managment" component={ResourceManagementScreen} />
       <Tab.Screen name="Profile" component={UserProfileScreen} />
     </Tab.Navigator>
   );
