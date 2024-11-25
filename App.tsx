@@ -11,6 +11,7 @@ import AddEventScreen from './componentes/AddEvent';
 import { EventProvider } from './componentes/EventContext';
 import EventDetailsScreen from './componentes/EventDetailScreen';
 import UserProfileScreen from './componentes/UserProfileScreen';
+import TaskListScreen from './componentes/InitialTask';
 
 type RootStackParamList = {
   Welcome: undefined;
@@ -20,6 +21,7 @@ type RootStackParamList = {
   UserProfileScreen: undefined;
   AddEvent: undefined;
   EventDetails: { eventId: string; eventTitle: string; eventDescription: string }; // Nueva pantalla
+  TaksList: undefined
 };
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -57,7 +59,7 @@ function OrganizerTabs() {
     >
       <Tab.Screen name="Home" component={CommunityHomeScreen} />
       <Tab.Screen name="Events" component={OrganizerHomeScreen} />
-      <Tab.Screen name="Tasks" component={OrganizerHomeScreen} />
+      <Tab.Screen name="Tasks" component={TaskListScreen} />
       <Tab.Screen name="Profile" component={UserProfileScreen} />
     </Tab.Navigator>
   );
