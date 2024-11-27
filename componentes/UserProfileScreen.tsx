@@ -8,11 +8,33 @@ import {
   TouchableOpacity,
   Switch,
   ScrollView,
+  Alert,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from './configuration';
+
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'>;
 
 const UserProfileScreen = () => {
   const [notificationsEnabled, setNotificationsEnabled] = React.useState(false);
   const [darkModeEnabled, setDarkModeEnabled] = React.useState(false);
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
+
+  const handleLogout = () => {
+    Alert.alert(
+      'Confirm Logout',
+      'Are you sure you want to log out?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Logout',
+          style: 'destructive',
+          onPress: () => navigation.navigate('Login'), // Redirige a la pantalla de inicio de sesión
+        },
+      ]
+    );
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -80,6 +102,11 @@ const UserProfileScreen = () => {
           <Text style={styles.buttonText}>Delete Account</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Logout Button */}
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Text style={styles.logoutButtonText}>Logout</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -192,6 +219,19 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#FFF',
     fontWeight: 'bold',
+  },
+  logoutButton: {
+    marginHorizontal: 20,
+    marginBottom: 30,
+    backgroundColor: '#FF6B6B',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  logoutButtonText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
 

@@ -4,6 +4,7 @@ import { Task } from 'react-native';
 export type RootStackParamList = {
   Welcome: undefined;
   Login: undefined;
+  AdminHome: undefined;
   CommunityHome: undefined;
   OrganizerHome: undefined;
   AddEvent: undefined;

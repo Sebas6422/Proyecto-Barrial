@@ -12,10 +12,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = () => {
-    if (email === 'user@community.com' && password === 'password123') {
-      navigation.navigate('CommunityHome'); // Redirige a CommunityHome
-    } else if (email === 'admin@events.com' && password === 'password123') {
-      navigation.navigate('OrganizerHome'); // Redirige a OrganizerHome
+    if (email === 'hildagora_2024@gmail.com' && password === '12345678') {
+      navigation.navigate('CommunityHome');
+    } else if (email === 'javier.legua@gmail.com' && password === '12345678') {
+      navigation.navigate('OrganizerHome');
     } else {
       Alert.alert('Error', 'Credenciales incorrectas');
     }
