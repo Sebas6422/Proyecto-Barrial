@@ -22,19 +22,27 @@ type Post = {
 const posts: Post[] = [
   {
     id: '1',
-    user: 'Carlos',
-    location: 'Madrid, España',
+    user: 'Javier Legua',
+    location: 'Lima, Perú',
     time: 'Hace 4 horas',
     image: require('../assets/salud.jpg'),
-    likes: 93,
+    likes: 10,
   },
   {
     id: '2',
-    user: 'Laura',
-    location: 'Valencia, España',
+    user: 'Segio Gonzales',
+    location: 'Lima, Perú',
     time: 'Hace 35 min',
     image: require('../assets/remodelacion.jpg'),
-    likes: 98,
+    likes: 5,
+  },
+  {
+    id: '3',
+    user: 'Hilda Gora',
+    location: 'Lima, Perú',
+    time: 'Hace 35 min',
+    image: require('../assets/actividad.jpg'),
+    likes: 2,
   },
 ];
 

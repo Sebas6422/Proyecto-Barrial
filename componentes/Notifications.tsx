@@ -9,79 +9,112 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-type Notification = {
+type Notificacion = {
   id: string;
-  title: string;
-  description: string;
-  sender: string;
-  time: string;
+  titulo: string;
+  descripcion: string;
+  remitente: string;
+  tiempo: string;
   avatar: any;
 };
 
-const notifications: Notification[] = [
+const notificaciones: Notificacion[] = [
   {
     id: '1',
-    title: 'Invitación al evento: Picnic',
-    description: 'Estás invitado al picnic de este fin de semana.',
-    sender: 'Carlos',
-    time: 'Hace 2 horas',
-    avatar: require('../assets/perfil1.jpg'), // Ruta ficticia
-  },
-  {
-    id: '2',
-    title: 'Comentario en el evento',
-    description: 'María comentó: "¡Gran iniciativa, cuenta conmigo!"',
-    sender: 'María',
-    time: 'Hace 5 horas',
+    titulo: 'Invitación a la actividad: ',
+    descripcion: 'Estás invitado a la actividad Arreglo del Jardin de la calle principal.',
+    remitente: 'Organizador: Javier Legua',
+    tiempo: 'Ayer',
     avatar: require('../assets/perfil2.jpeg'),
   },
   {
-    id: '3',
-    title: 'Evento actualizado',
-    description: 'La hora del evento "Reunión vecinal" ha cambiado.',
-    sender: 'Organizador',
-    time: 'Ayer',
+    id: '2',
+    titulo: 'Comentario en la actividad de ',
+    descripcion: 'Julia Lucano comentó: "¡Gran iniciativa, cuenta conmigo!"',
+    remitente: 'Julia Lucano',
+    tiempo: 'Hace 5 horas',
     avatar: require('../assets/perfil3.jpg'),
+  },
+  {
+    id: '3',
+    titulo: 'Actividad actualizado',
+    descripcion: 'La hora del evento "Reunión vecinal" ha cambiado.',
+    remitente: 'Organizador: Javier Legua',
+    tiempo: 'Hace 2 horas',
+    avatar: require('../assets/perfil2.jpeg'),
+  },
+  {
+    id: '4',
+    titulo: 'Invitación a la actividad',
+    descripcion: 'Estás invitado a la Actividad de Ejemplo.',
+    remitente: 'Organizador: Javier Legua',
+    tiempo: 'Hace 2 minutos',
+    avatar: require('../assets/perfil2.jpeg'),
+  },
+  {
+    id: '5',
+    titulo: 'Se te asigno una tarea',
+    descripcion: 'Realizarás ejemplo de la actividad.',
+    remitente: 'Organizador: Javier Legua',
+    tiempo: 'Hace 1 minuto',
+    avatar: require('../assets/perfil2.jpeg'),
+  },
+  {
+    id: '6',
+    titulo: 'Completaste tu tarea con éxito',
+    descripcion: 'Gracias por contribuir con la comunidad!!!!',
+    remitente: 'Organizador: Javier Legua',
+    tiempo: 'Hace 1 minuto',
+    avatar: require('../assets/perfil2.jpeg'),
   },
 ];
 
-const NotificationsScreen: React.FC = () => {
-  const renderNotificationItem = ({ item }: { item: Notification }) => (
-    <TouchableOpacity style={styles.notificationCard}>
-      <Image source={item.avatar} style={styles.avatar} />
-      <View style={styles.notificationInfo}>
-        <Text style={styles.notificationTitle}>{item.title}</Text>
-        <Text style={styles.notificationDescription}>{item.description}</Text>
-        <View style={styles.notificationMeta}>
-          <Text style={styles.notificationSender}>{item.sender}</Text>
-          <Text style={styles.notificationTime}>{item.time}</Text>
+const PantallaNotificaciones: React.FC = () => {
+  const renderizarNotificacion = ({ item, index }: { item: Notificacion; index: number }) => {
+    const esReciente = index >= notificaciones.length - 3;
+
+    return (
+      <TouchableOpacity
+        style={[
+          estilos.tarjetaNotificacion,
+          esReciente && estilos.notificacionReciente, // Aplica estilo condicional
+        ]}
+      >
+        <Image source={item.avatar} style={estilos.avatar} />
+        <View style={estilos.informacionNotificacion}>
+          <Text style={estilos.tituloNotificacion}>{item.titulo}</Text>
+          <Text style={estilos.descripcionNotificacion}>{item.descripcion}</Text>
+          <View style={estilos.metaNotificacion}>
+            <Text style={estilos.remitenteNotificacion}>{item.remitente}</Text>
+            <Text style={estilos.tiempoNotificacion}>{item.tiempo}</Text>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Bandeja de entrada</Text>
+    <View style={estilos.contenedor}>
+      <View style={estilos.encabezado}>
+        <Text style={estilos.tituloEncabezado}>Bandeja de entrada</Text>
         <Ionicons name="search" size={24} color="gray" />
       </View>
       <FlatList
-        data={notifications}
+        data={notificaciones}
         keyExtractor={(item) => item.id}
-        renderItem={renderNotificationItem}
-        contentContainerStyle={styles.listContent}
+        renderItem={renderizarNotificacion}
+        contentContainerStyle={estilos.contenidoLista}
       />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
+const estilos = StyleSheet.create({
+  contenedor: {
     flex: 1,
     backgroundColor: '#F8F8F8',
   },
-  header: {
+  encabezado: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -91,15 +124,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#DDD',
   },
-  headerTitle: {
+  tituloEncabezado: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
   },
-  listContent: {
+  contenidoLista: {
     padding: 20,
   },
-  notificationCard: {
+  tarjetaNotificacion: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFF',
@@ -112,38 +145,41 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
   },
+  notificacionReciente: {
+    backgroundColor: '#EEE', // Fondo gris para notificaciones recientes
+  },
   avatar: {
     width: 50,
     height: 50,
     borderRadius: 25,
     marginRight: 15,
   },
-  notificationInfo: {
+  informacionNotificacion: {
     flex: 1,
   },
-  notificationTitle: {
+  tituloNotificacion: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 5,
   },
-  notificationDescription: {
+  descripcionNotificacion: {
     fontSize: 14,
     color: '#555',
     marginBottom: 5,
   },
-  notificationMeta: {
+  metaNotificacion: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  notificationSender: {
+  remitenteNotificacion: {
     fontSize: 12,
     color: '#888',
   },
-  notificationTime: {
+  tiempoNotificacion: {
     fontSize: 12,
     color: '#888',
   },
 });
 
-export default NotificationsScreen;
+export default PantallaNotificaciones;

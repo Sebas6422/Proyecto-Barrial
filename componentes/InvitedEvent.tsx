@@ -10,59 +10,57 @@ import {
 import { Calendar } from "react-native-calendars";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-type Event = {
+type Evento = {
   id: string;
-  title: string;
-  time: string;
+  titulo: string;
+  hora: string;
 };
 
-const initialEvents: Record<string, Event[]> = {
+const eventosIniciales: Record<string, Evento[]> = {
   "2023-12-18": [
-    { id: "1", title: "Cita con el dentista", time: "9:00-10:30AM" },
-    { id: "2", title: "Pilates", time: "1:00-2:00PM" },
-    { id: "3", title: "¡Cena!", time: "7:00-9:00PM" },
+    { id: "1", titulo: "Ejemplo de actividad", hora: "Pendiente"},
   ],
-  "2023-12-19": [
-    { id: "4", title: "Reunión con el equipo", time: "10:00-11:30AM" },
-    { id: "5", title: "Almuerzo con amigos", time: "2:00-3:30PM" },
+  "2023-11-27": [
+    { id: "2", titulo: "Remodelación de local comunal", hora: "1:00-2:00PM" },
+    { id: "3", titulo: "Arreglo del Jardin de la calle principal", hora: "10:00-11:30AM" },
   ],
 };
 
-const UserCalendarScreen: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState("2023-12-18");
-  const [events, setEvents] = useState<Event[]>(initialEvents[selectedDate] || []);
+const PantallaCalendarioUsuario: React.FC = () => {
+  const [fechaSeleccionada, setFechaSeleccionada] = useState("2023-12-18");
+  const [eventos, setEventos] = useState<Evento[]>(eventosIniciales[fechaSeleccionada] || []);
 
-  const handleDayPress = (day: { dateString: string }) => {
-    setSelectedDate(day.dateString);
-    setEvents(initialEvents[day.dateString] || []);
+  const manejarSeleccionDia = (dia: { dateString: string }) => {
+    setFechaSeleccionada(dia.dateString);
+    setEventos(eventosIniciales[dia.dateString] || []);
   };
 
-  const renderEvent = ({ item }: { item: Event }) => (
-    <View style={styles.eventCard}>
-      <Ionicons name="calendar" size={24} color="#FF6B6B" style={styles.icon} />
+  const renderizarEvento = ({ item }: { item: Evento }) => (
+    <View style={estilos.tarjetaEvento}>
+      <Ionicons name="calendar" size={24} color="#FF6B6B" style={estilos.icono} />
       <View>
-        <Text style={styles.eventTitle}>{item.title}</Text>
-        <Text style={styles.eventTime}>{item.time}</Text>
+        <Text style={estilos.tituloEvento}>{item.titulo}</Text>
+        <Text style={estilos.horaEvento}>{item.hora}</Text>
       </View>
     </View>
   );
 
   return (
-    <View style={styles.container}>
-      {/* Header con imagen de usuario */}
-      <View style={styles.header}>
-        <Text style={styles.headerDate}>{selectedDate}</Text>
+    <View style={estilos.contenedor}>
+      {/* Encabezado con imagen de usuario */}
+      <View style={estilos.encabezado}>
+        <Text style={estilos.fechaEncabezado}>{fechaSeleccionada}</Text>
         <Image
           source={require("../assets/profile.jpeg")}
-          style={styles.profileImage}
+          style={estilos.imagenPerfil}
         />
       </View>
 
       {/* Calendario */}
       <Calendar
-        onDayPress={handleDayPress}
+        onDayPress={manejarSeleccionDia}
         markedDates={{
-          [selectedDate]: { selected: true, marked: true, selectedColor: "#FF6B6B" },
+          [fechaSeleccionada]: { selected: true, marked: true, selectedColor: "#FF6B6B" },
         }}
         theme={{
           todayTextColor: "#FF6B6B",
@@ -73,46 +71,46 @@ const UserCalendarScreen: React.FC = () => {
 
       {/* Lista de eventos */}
       <FlatList
-        data={events}
+        data={eventos}
         keyExtractor={(item) => item.id}
-        renderItem={renderEvent}
-        contentContainerStyle={styles.eventList}
+        renderItem={renderizarEvento}
+        contentContainerStyle={estilos.listaEventos}
         ListEmptyComponent={
-          <Text style={styles.noEventsText}>No hay eventos para este día.</Text>
+          <Text style={estilos.textoSinEventos}>No hay actividades para este día.</Text>
         }
       />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
+const estilos = StyleSheet.create({
+  contenedor: {
     flex: 1,
     backgroundColor: "#F8F8F8",
     padding: 10,
   },
-  header: {
+  encabezado: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 10,
   },
-  headerDate: {
+  fechaEncabezado: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#333",
   },
-  profileImage: {
+  imagenPerfil: {
     width: 40,
     height: 40,
     borderRadius: 20,
     borderWidth: 1,
     borderColor: "#ccc",
   },
-  eventList: {
+  listaEventos: {
     marginTop: 10,
   },
-  eventCard: {
+  tarjetaEvento: {
     flexDirection: "row",
     alignItems: "center",
     padding: 15,
@@ -125,19 +123,19 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
   },
-  icon: {
+  icono: {
     marginRight: 10,
   },
-  eventTitle: {
+  tituloEvento: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#333",
   },
-  eventTime: {
+  horaEvento: {
     fontSize: 14,
     color: "#666",
   },
-  noEventsText: {
+  textoSinEventos: {
     fontSize: 16,
     color: "#666",
     textAlign: "center",
@@ -145,4 +143,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserCalendarScreen;
+export default PantallaCalendarioUsuario;

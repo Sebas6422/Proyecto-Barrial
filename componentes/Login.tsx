@@ -28,7 +28,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
       {/* Campo de correo */}
       <TextInput
         style={styles.input}
-        placeholder="Username"
+        placeholder="Correo electrónico"
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -39,7 +39,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
       <View style={styles.passwordContainer}>
         <TextInput
           style={styles.passwordInput}
-          placeholder="Password"
+          placeholder="Contraseña"
           value={password}
           onChangeText={setPassword}
           secureTextEntry={!showPassword}
@@ -57,16 +57,21 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
       </View>
 
       <View style={styles.linkContainer}>
-        <Text style={styles.link} onPress={() => Alert.alert("Recuperar contraseña")}>
-          Forgot Password?
+        <Text
+          style={styles.link}
+          onPress={() => navigation.navigate('ForgotPassword')} // Navega a la vista de recuperación de contraseña
+        >
+          ¿Olvidaste tu contraseña?
         </Text>
-        <Text style={styles.link} onPress={() => Alert.alert("Registrar usuario")}>
-          New User? Register
+        <Text 
+          style={styles.link} 
+          onPress={() => navigation.navigate('Register')}>
+          ¿Nuevo usuario? Regístrate
         </Text>
       </View>
 
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Log In</Text>
+        <Text style={styles.buttonText}>Iniciar sesión</Text>
       </TouchableOpacity>
     </View>
   );

@@ -16,21 +16,21 @@ import { RootStackParamList } from './configuration';
 
 type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Profile'>;
 
-const UserProfileScreen = () => {
-  const [notificationsEnabled, setNotificationsEnabled] = React.useState(false);
-  const [darkModeEnabled, setDarkModeEnabled] = React.useState(false);
+const PerfilUsuarioJavier = () => {
+  const [notificacionesHabilitadas, setNotificacionesHabilitadas] = React.useState(false);
+  const [modoOscuroHabilitado, setModoOscuroHabilitado] = React.useState(false);
   const navigation = useNavigation<ProfileScreenNavigationProp>();
 
-  const handleLogout = () => {
+  const manejarCerrarSesion = () => {
     Alert.alert(
-      'Confirm Logout',
-      'Are you sure you want to log out?',
+      'Confirmar Cierre de Sesión',
+      '¿Estás seguro de que quieres cerrar sesión?',
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: 'Cancelar', style: 'cancel' },
         {
-          text: 'Logout',
+          text: 'Cerrar Sesión',
           style: 'destructive',
-          onPress: () => navigation.navigate('Login'), // Redirige a la pantalla de inicio de sesión
+          onPress: () => navigation.navigate('Login'),
         },
       ]
     );
@@ -38,74 +38,74 @@ const UserProfileScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>CommunityHub</Text>
-        <TouchableOpacity style={styles.saveButton}>
-          <Text style={styles.saveButtonText}>Save</Text>
+      {/* Encabezado */}
+      <View style={styles.encabezado}>
+        <Text style={styles.tituloEncabezado}>Conexión Barrial</Text>
+        <TouchableOpacity style={styles.botonGuardar}>
+          <Text style={styles.textoBotonGuardar}>Guardar</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Profile Picture Section */}
-      <View style={styles.profileSection}>
+      {/* Sección de Imagen de Perfil */}
+      <View style={styles.seccionPerfil}>
         <Image
-          source={require('../assets/profile.jpeg')} // Imagen ficticia
-          style={styles.profileImage}
+          source={require('../assets/perfil2.jpeg')} // Imagen ficticia
+          style={styles.imagenPerfil}
         />
-        <TouchableOpacity style={styles.editPhotoButton}>
-          <Text style={styles.editPhotoText}>Edit</Text>
+        <TouchableOpacity style={styles.botonEditarFoto}>
+          <Text style={styles.textoEditarFoto}>Editar</Text>
         </TouchableOpacity>
-        <Text style={styles.userName}>Ana María Torres López</Text>
-        <Text style={styles.userRole}>Coordinadora de Eventos</Text>
+        <Text style={styles.nombreUsuario}>Javier Legua</Text>
+        <Text style={styles.rolUsuario}>Miembro de la Comunidad</Text>
       </View>
 
-      {/* Contact Details */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Contact Details</Text>
+      {/* Detalles de Contacto */}
+      <View style={styles.seccion}>
+        <Text style={styles.tituloSeccion}>Detalles de Contacto</Text>
         <TextInput
           style={styles.input}
-          placeholder="Email"
-          value="ana.torres@example.com"
+          placeholder="Correo Electrónico"
+          value="javier.legua@gmail.com"
           editable={false}
         />
         <TextInput
           style={styles.input}
-          placeholder="Phone"
-          value="+51 987 654 321"
+          placeholder="Teléfono"
+          value="+51 925 841 221"
           editable={false}
         />
       </View>
 
-      {/* Preferences */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Preferences</Text>
-        <View style={styles.preferenceRow}>
-          <Text style={styles.preferenceText}>Notifications</Text>
+      {/* Preferencias */}
+      <View style={styles.seccion}>
+        <Text style={styles.tituloSeccion}>Preferencias</Text>
+        <View style={styles.filaPreferencias}>
+          <Text style={styles.textoPreferencias}>Notificaciones</Text>
           <Switch
-            value={notificationsEnabled}
-            onValueChange={setNotificationsEnabled}
+            value={notificacionesHabilitadas}
+            onValueChange={setNotificacionesHabilitadas}
           />
         </View>
-        <View style={styles.preferenceRow}>
-          <Text style={styles.preferenceText}>Dark Mode</Text>
-          <Switch value={darkModeEnabled} onValueChange={setDarkModeEnabled} />
+        <View style={styles.filaPreferencias}>
+          <Text style={styles.textoPreferencias}>Modo Oscuro</Text>
+          <Switch value={modoOscuroHabilitado} onValueChange={setModoOscuroHabilitado} />
         </View>
       </View>
 
-      {/* Account Settings */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Account Settings</Text>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Change Password</Text>
+      {/* Configuración de Cuenta */}
+      <View style={styles.seccion}>
+        <Text style={styles.tituloSeccion}>Configuración de la Cuenta</Text>
+        <TouchableOpacity style={styles.boton}>
+          <Text style={styles.textoBoton}>Cambiar Contraseña</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.deleteButton]}>
-          <Text style={styles.buttonText}>Delete Account</Text>
+        <TouchableOpacity style={[styles.boton, styles.botonEliminar]}>
+          <Text style={styles.textoBoton}>Eliminar Cuenta</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Logout Button */}
-      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.logoutButtonText}>Logout</Text>
+      {/* Botón de Cerrar Sesión */}
+      <TouchableOpacity style={styles.botonCerrarSesion} onPress={manejarCerrarSesion}>
+        <Text style={styles.textoBotonCerrarSesion}>Cerrar Sesión</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -116,60 +116,60 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F8F8F8',
   },
-  header: {
+  encabezado: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 20,
   },
-  headerTitle: {
+  tituloEncabezado: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
   },
-  saveButton: {
+  botonGuardar: {
     backgroundColor: '#FF6B6B',
     paddingHorizontal: 20,
     paddingVertical: 8,
     borderRadius: 20,
   },
-  saveButtonText: {
+  textoBotonGuardar: {
     color: '#FFF',
     fontWeight: 'bold',
   },
-  profileSection: {
+  seccionPerfil: {
     alignItems: 'center',
     marginBottom: 20,
   },
-  profileImage: {
+  imagenPerfil: {
     width: 120,
     height: 120,
     borderRadius: 60,
     marginBottom: 10,
   },
-  editPhotoButton: {
+  botonEditarFoto: {
     backgroundColor: '#FF6B6B',
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 20,
     marginBottom: 10,
   },
-  editPhotoText: {
+  textoEditarFoto: {
     color: '#FFF',
     fontSize: 14,
   },
-  userName: {
+  nombreUsuario: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
   },
-  userRole: {
+  rolUsuario: {
     fontSize: 16,
     color: '#555',
     marginTop: 5,
   },
-  section: {
+  seccion: {
     marginBottom: 20,
     backgroundColor: '#FFF',
     padding: 15,
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
   },
-  sectionTitle: {
+  tituloSeccion: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
@@ -196,31 +196,31 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: '#F8F8F8',
   },
-  preferenceRow: {
+  filaPreferencias: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 10,
   },
-  preferenceText: {
+  textoPreferencias: {
     fontSize: 16,
     color: '#333',
   },
-  button: {
+  boton: {
     backgroundColor: '#FF6B6B',
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 10,
   },
-  deleteButton: {
+  botonEliminar: {
     backgroundColor: '#D9534F',
   },
-  buttonText: {
+  textoBoton: {
     color: '#FFF',
     fontWeight: 'bold',
   },
-  logoutButton: {
+  botonCerrarSesion: {
     marginHorizontal: 20,
     marginBottom: 30,
     backgroundColor: '#FF6B6B',
@@ -228,11 +228,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
   },
-  logoutButtonText: {
+  textoBotonCerrarSesion: {
     color: '#FFF',
     fontWeight: 'bold',
     fontSize: 16,
   },
 });
 
-export default UserProfileScreen;
+export default PerfilUsuarioJavier;

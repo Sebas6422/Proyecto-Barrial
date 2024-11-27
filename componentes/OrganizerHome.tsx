@@ -44,10 +44,10 @@ const OrganizerHomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>📅 Upcoming Events</Text>
+        <Text style={styles.headerText}>📅 Actividades</Text>
         <TouchableOpacity style={styles.addButton}
           onPress={handleAddEvent}>
-          <Text style={styles.addButtonText}>Add Event</Text>
+          <Text style={styles.addButtonText}>Nueva Actividad</Text>
         </TouchableOpacity>
       </View>
       <FlatList
