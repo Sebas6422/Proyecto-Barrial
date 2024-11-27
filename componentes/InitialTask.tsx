@@ -7,122 +7,139 @@ import {
   TouchableOpacity,
   Switch,
 } from 'react-native';
+import { event } from 'react-native-reanimated';
 
-type Task = {
+type Tarea = {
   id: string;
-  description: string;
-  assignedTo: string;
-  status: 'pending' | 'completed';
+  descripcion: string;
+  asignadoA: string;
+  event: string;
+  estado: 'pendiente' | 'completada';
 };
 
-const initialTasks: Task[] = [
+const tareasIniciales: Tarea[] = [
   {
     id: '1',
-    description: 'Clean the community park',
-    assignedTo: 'Marcos',
-    status: 'pending',
+    descripcion: 'Traer implementos para limpiar la basura de las plantas',
+    asignadoA: 'Casimiro Villegas',
+    event: 'Arreglo del Jardin de la calle principal',
+    estado: 'pendiente',
   },
   {
     id: '2',
-    description: 'Organize the food drive',
-    assignedTo: 'Laura',
-    status: 'completed',
+    descripcion: 'Conseguir nuevas plantas para el jardin',
+    asignadoA: 'Mónico Isla',
+    event: 'Arreglo del Jardin de la calle principal',
+    estado: 'completada',
   },
   {
     id: '3',
-    description: 'Prepare for volunteer meeting',
-    assignedTo: 'Diego',
-    status: 'pending',
+    descripcion: 'Preparar la reunión de voluntarios para la limpieaz',
+    asignadoA: 'Melchor Paulino',
+    event: 'Arreglo del Jardin de la calle principal',
+    estado: 'pendiente',
   },
   {
     id: '4',
-    description: 'Distribute flyers for the event',
-    assignedTo: 'Carmen',
-    status: 'completed',
+    descripcion: 'Realizar translado de algunas plantas al jardin de la avenida',
+    asignadoA: 'Javier Legua',
+    event: 'Arreglo del Jardin de la calle principal',
+    estado: 'completada',
+  },
+  {
+    id: '5',
+    descripcion: 'Ejemlo de actividad',
+    asignadoA: 'Hilda Gora',
+    event: 'Realizaras ejemplo de la actividad',
+    estado: 'pendiente',
   },
 ];
 
-const TaskListScreen: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
-  const [filter, setFilter] = useState<'all' | 'pending' | 'completed'>('all');
+const PantallaListaTareas: React.FC = () => {
+  const [tareas, setTareas] = useState<Tarea[]>(tareasIniciales);
+  const [filtro, setFiltro] = useState<'todas' | 'pendiente' | 'completada'>(
+    'todas'
+  );
 
-  const handleFilterChange = (newFilter: 'all' | 'pending' | 'completed') => {
-    setFilter(newFilter);
+  const cambiarFiltro = (nuevoFiltro: 'todas' | 'pendiente' | 'completada') => {
+    setFiltro(nuevoFiltro);
   };
 
-  const toggleTaskStatus = (id: string) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === id
+  const alternarEstadoTarea = (id: string) => {
+    setTareas((tareasPrevias) =>
+      tareasPrevias.map((tarea) =>
+        tarea.id === id
           ? {
-              ...task,
-              status: task.status === 'pending' ? 'completed' : 'pending',
+              ...tarea,
+              estado: tarea.estado === 'pendiente' ? 'completada' : 'pendiente',
             }
-          : task
+          : tarea
       )
     );
   };
 
-  const filteredTasks = tasks.filter((task) => {
-    if (filter === 'all') return true;
-    return task.status === filter;
+  const tareasFiltradas = tareas.filter((tarea) => {
+    if (filtro === 'todas') return true;
+    return tarea.estado === filtro;
   });
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <Text style={styles.title}>Community Tasks</Text>
+    <View style={styles.contenedor}>
+      {/* Encabezado */}
+      <Text style={styles.titulo}>Tareas Comunitarias</Text>
 
-      {/* Filter Buttons */}
-      <View style={styles.filterContainer}>
+      {/* Botones de Filtro */}
+      <View style={styles.contenedorFiltros}>
         <TouchableOpacity
-          onPress={() => handleFilterChange('all')}
-          style={[styles.filterButton, filter === 'all' && styles.activeFilter]}
-        >
-          <Text style={styles.filterText}>All</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => handleFilterChange('pending')}
+          onPress={() => cambiarFiltro('todas')}
           style={[
-            styles.filterButton,
-            filter === 'pending' && styles.activeFilter,
+            styles.botonFiltro,
+            filtro === 'todas' && styles.filtroActivo,
           ]}
         >
-          <Text style={styles.filterText}>Pending</Text>
+          <Text style={styles.textoFiltro}>Todas</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => handleFilterChange('completed')}
+          onPress={() => cambiarFiltro('pendiente')}
           style={[
-            styles.filterButton,
-            filter === 'completed' && styles.activeFilter,
+            styles.botonFiltro,
+            filtro === 'pendiente' && styles.filtroActivo,
           ]}
         >
-          <Text style={styles.filterText}>Completed</Text>
+          <Text style={styles.textoFiltro}>Pendientes</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => cambiarFiltro('completada')}
+          style={[
+            styles.botonFiltro,
+            filtro === 'completada' && styles.filtroActivo,
+          ]}
+        >
+          <Text style={styles.textoFiltro}>Completadas</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Task List */}
+      {/* Lista de Tareas */}
       <FlatList
-        data={filteredTasks}
+        data={tareasFiltradas}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.taskCard}>
-            <View style={styles.taskInfo}>
-              <Text style={styles.taskDescription}>{item.description}</Text>
-              <Text style={styles.assignedTo}>
-                Assigned to: {item.assignedTo}
-              </Text>
+          <View style={styles.tarjetaTarea}>
+            <View style={styles.infoTarea}>
+              <Text style={styles.descripcionTarea}>{item.descripcion}</Text>
+              <Text style={styles.asignadoA}>Asignado a: {item.asignadoA}</Text>
+              <Text style={styles.event}>Actividad: {item.event}</Text>
             </View>
             <Switch
               trackColor={{ false: '#ccc', true: '#FF6B6B' }}
-              thumbColor={item.status === 'completed' ? '#FF0000' : '#FFFFFF'}
-              value={item.status === 'completed'}
-              onValueChange={() => toggleTaskStatus(item.id)}
+              thumbColor={item.estado === 'completada' ? '#FF0000' : '#FFFFFF'}
+              value={item.estado === 'completada'}
+              onValueChange={() => alternarEstadoTarea(item.id)}
             />
           </View>
         )}
         ListEmptyComponent={() => (
-          <Text style={styles.emptyText}>No tasks to display</Text>
+          <Text style={styles.textoVacio}>No hay tareas para mostrar</Text>
         )}
       />
     </View>
@@ -130,37 +147,37 @@ const TaskListScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  contenedor: {
     flex: 1,
     backgroundColor: '#F8F8F8',
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
-  title: {
+  titulo: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 15,
   },
-  filterContainer: {
+  contenedorFiltros: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginBottom: 20,
   },
-  filterButton: {
+  botonFiltro: {
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
     backgroundColor: '#EEE',
   },
-  activeFilter: {
+  filtroActivo: {
     backgroundColor: '#FF6B6B',
   },
-  filterText: {
+  textoFiltro: {
     color: '#333',
     fontWeight: 'bold',
   },
-  taskCard: {
+  tarjetaTarea: {
     backgroundColor: '#FFF',
     padding: 15,
     borderRadius: 10,
@@ -174,20 +191,25 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
   },
-  taskInfo: {
+  infoTarea: {
     flex: 1,
     marginRight: 10,
   },
-  taskDescription: {
+  descripcionTarea: {
     fontSize: 16,
     color: '#333',
   },
-  assignedTo: {
+  asignadoA: {
     fontSize: 14,
     color: '#555',
     marginTop: 5,
   },
-  emptyText: {
+  event: {
+    fontSize: 14,
+    color: '#555',
+    marginTop: 5,
+  },
+  textoVacio: {
     textAlign: 'center',
     fontSize: 16,
     color: '#999',
@@ -195,4 +217,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TaskListScreen;
+export default PantallaListaTareas;

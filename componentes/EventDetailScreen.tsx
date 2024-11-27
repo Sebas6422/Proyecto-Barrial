@@ -29,14 +29,16 @@ type Person = {
 };
 
 const people: Person[] = [
-  { id: '1', name: 'Marcos', image: require('../assets/perfil1.jpg') },
-  { id: '2', name: 'Diego', image: require('../assets/perfil2.jpeg') },
-  { id: '3', name: 'Ismael', image: require('../assets/perfil3.jpg') },
-  { id: '4', name: 'Laura', image: require('../assets/perfil4.jpg') },
-  { id: '5', name: 'Carmen', image: require('../assets/perfil5.jpg') },
+  { id: '1', name: 'Javier Legua', image: require('../assets/perfil1.jpg') },
+  { id: '2', name: 'Sergio Gonzales', image: require('../assets/perfil2.jpeg') },
+  { id: '3', name: 'Julia Lucano', image: require('../assets/perfil3.jpg') },
+  { id: '4', name: 'Casimiro Villegas', image: require('../assets/perfil4.jpg') },
+  { id: '5', name: 'Mónica Isla', image: require('../assets/perfil5.jpg') },
+  { id: '6', name: 'Hilda Gora', image: require('../assets/perfil5.jpg') },
+  { id: '7', name: 'Arián Gonzales', image: require('../assets/perfil5.jpg') },
 ];
 
-const EventDetailsScreen: React.FC = () => {
+const DetallesActividad: React.FC = () => {
   const route = useRoute<EventDetailsRouteProp>();
   const navigation = useNavigation();
   const { eventId, eventTitle, eventDescription } = route.params;
@@ -86,7 +88,7 @@ const EventDetailsScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+      {/* Encabezado */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Icon name="arrow-back" size={24} color="#333" />
@@ -97,20 +99,20 @@ const EventDetailsScreen: React.FC = () => {
         </View>
       </View>
 
-      {/* Task Section */}
+      {/* Sección de tareas */}
       <View style={styles.taskSection}>
-        <Text style={styles.taskSectionTitle}>Add and Assign Tasks</Text>
+        <Text style={styles.taskSectionTitle}>Añadir y Asignar Tareas</Text>
 
         <View style={styles.taskInputContainer}>
           <TextInput
             style={styles.taskInput}
-            placeholder="Enter task description"
+            placeholder="Descripción de la tarea"
             value={taskDescription}
             onChangeText={setTaskDescription}
           />
           <TextInput
             style={styles.taskInput}
-            placeholder="Search and assign person"
+            placeholder="Buscar y asignar persona"
             value={personName}
             onChangeText={handleSearchPerson}
           />
@@ -129,12 +131,12 @@ const EventDetailsScreen: React.FC = () => {
             </View>
           )}
           <TouchableOpacity style={styles.addButton} onPress={handleAddTask}>
-            <Text style={styles.addButtonText}>Add</Text>
+            <Text style={styles.addButtonText}>Añadir</Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Task List */}
+      {/* Lista de tareas */}
       <FlatList
         data={tasks}
         keyExtractor={(item) => item.id}
@@ -142,7 +144,7 @@ const EventDetailsScreen: React.FC = () => {
           <View style={styles.taskCard}>
             <View style={styles.taskInfo}>
               <Text style={styles.taskDescription}>{item.description}</Text>
-              <Text style={styles.assignedTo}>Assigned to: {item.assignedTo}</Text>
+              <Text style={styles.assignedTo}>Asignado a: {item.assignedTo}</Text>
             </View>
             {item.assignedImage && (
               <Image source={item.assignedImage} style={styles.taskPersonImage} />
@@ -279,4 +281,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EventDetailsScreen;
+export default DetallesActividad;

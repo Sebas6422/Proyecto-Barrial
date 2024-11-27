@@ -16,14 +16,25 @@ import UserProfileScreen from './componentes/UserProfileScreen';
 import TaskListScreen from './componentes/InitialTask';
 import ResourceManagementScreen from './componentes/ResourceManagement';
 import UserHomeScreen from './componentes/CommunityHome'; // Pantalla inicial del usuario // Crear post (usuarios)
+import InvitedEventsScreen from './componentes/InvitedEvent';
+import NotificationsScreen from './componentes/Notifications';
+import ForgotPasswordScreen from './componentes/ForgotPassword';
+import RegisterScreen from './componentes/Register';
+import AddDonationScreen from './componentes/Donation';
 
 // Definir las rutas del Stack
 type RootStackParamList = {
   Welcome: undefined;
   Login: undefined;
+  ForgotPassword: undefined;
+  Register: undefined;
   AdminHome: undefined;
   CommunityHome: undefined;
   OrganizerHome: undefined;
+  Eventos: undefined;
+  Resource: undefined;
+  Notification: undefined;
+  RegisterDonation: undefined;
   AddEvent: undefined;
   EventDetails: { eventId: string; eventTitle: string; eventDescription: string };
 };
@@ -41,58 +52,17 @@ function OrganizerTabs() {
           let iconName: keyof typeof Ionicons.glyphMap;
 
           switch (route.name) {
-            case 'Home':
+            case 'Inicio':
               iconName = 'home';
               break;
-            case 'Events':
-              iconName = 'calendar';
+            case 'Eventos':
+              iconName = 'today-outline';
               break;
-            case 'Tasks':
+            case 'Tareas':
               iconName = 'list';
               break;
-            case 'Management':
+            case 'Resource':
               iconName = 'stats-chart';
-              break;
-            case 'Profile':
-              iconName = 'person';
-              break;
-            default:
-              iconName = 'help';
-          }
-
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: '#FF6B6B',
-        tabBarInactiveTintColor: 'gray',
-        headerShown: false,
-      })}
-    >
-      <Tab.Screen name="Home" component={CommunityHomeScreen} />
-      <Tab.Screen name="Events" component={OrganizerHomeScreen} />
-      <Tab.Screen name="Tasks" component={TaskListScreen} />
-      <Tab.Screen name="Management" component={ResourceManagementScreen} />
-      <Tab.Screen name="Profile" component={UserProfileScreen} />
-    </Tab.Navigator>
-  );
-}
-
-/// NAVIGATOR PARA USUARIOS (User)
-function UserTabs() {
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          let iconName: keyof typeof Ionicons.glyphMap;
-
-          switch (route.name) {
-            case 'Home':
-              iconName = 'home';
-              break;
-            case 'Buscar':
-              iconName = 'search';
-              break;
-            case 'Crear':
-              iconName = 'add-circle-outline';
               break;
             case 'Perfil':
               iconName = 'person';
@@ -108,9 +78,50 @@ function UserTabs() {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Home" component={UserHomeScreen} />
-      <Tab.Screen name="Buscar" component={UserHomeScreen} />
-      <Tab.Screen name="Crear" component={UserHomeScreen} />
+      <Tab.Screen name="Inicio" component={CommunityHomeScreen} />
+      <Tab.Screen name="Eventos" component={OrganizerHomeScreen} />
+      <Tab.Screen name="Tareas" component={TaskListScreen} />
+      <Tab.Screen name="Resource" component={ResourceManagementScreen} />
+      <Tab.Screen name="Perfil" component={UserProfileScreen} />
+    </Tab.Navigator>
+  );
+}
+
+/// NAVIGATOR PARA USUARIOS (User)
+function UserTabs() {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName: keyof typeof Ionicons.glyphMap;
+
+          switch (route.name) {
+            case 'Inicio':
+              iconName = 'home';
+              break;
+            case 'Calendario':
+              iconName = 'calendar-outline'; // Aquí el cambio
+              break;
+            case 'Notificaciones':
+              iconName = 'notifications-outline';
+              break;
+            case 'Perfil':
+              iconName = 'person';
+              break;
+            default:
+              iconName = 'help';
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: '#FF6B6B',
+        tabBarInactiveTintColor: 'gray',
+        headerShown: false,
+      })}
+    >
+      <Tab.Screen name="Inicio" component={UserHomeScreen} />
+      <Tab.Screen name="Calendario" component={InvitedEventsScreen} />
+      <Tab.Screen name="Notificaciones" component={NotificationsScreen} />
       <Tab.Screen name="Perfil" component={UserProfileScreen} />
     </Tab.Navigator>
   );
@@ -132,6 +143,16 @@ export default function App() {
             component={LoginScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPasswordScreen} // Aquí asegúrate de importar la vista que creaste previamente
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Register"
+            component={RegisterScreen}
+            options={{ headerShown: false }}
+          />
           {/* Para Usuarios */}
           <Stack.Screen
             name="CommunityHome"
@@ -147,11 +168,24 @@ export default function App() {
           <Stack.Screen
             name="AddEvent"
             component={AddEventScreen}
-            options={{ headerShown: true, title: 'Add Event' }}
+            options={{ headerShown: true, title: 'Agregar Actividad' }}
           />
           <Stack.Screen
             name="EventDetails"
             component={EventDetailsScreen}
+            options={{ headerShown: false }}
+          />
+          <Tab.Screen name="Eventos" 
+            component={InvitedEventsScreen}
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen
+            name="RegisterDonation"
+            component={AddDonationScreen}
+            options={{ headerShown: true, title: 'Registrar Donación' }}
+          />
+          <Tab.Screen name="Notificaciones" 
+            component={NotificationsScreen} 
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

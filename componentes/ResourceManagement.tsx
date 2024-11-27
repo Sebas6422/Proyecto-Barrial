@@ -1,36 +1,51 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import { PieChart, LineChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from './configuration';
 
 const screenWidth = Dimensions.get('window').width;
+type ResourceManagementScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Resource'>;
 
 const ResourceManagementScreen = () => {
+  const navigation = useNavigation<ResourceManagementScreenNavigationProp>();
+
   return (
     <ScrollView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>📊 Resource Management</Text>
-        <TouchableOpacity style={styles.addButton}>
-          <Text style={styles.addButtonText}>Contribute</Text>
+      {/* Encabezado */}
+      <View style={styles.encabezado}>
+        <Text style={styles.tituloEncabezado}>📊 Gestión de Recursos</Text>
+        <TouchableOpacity
+          style={styles.botonContribuir}
+          onPress={() => navigation.navigate('RegisterDonation')} // Navegar a la vista de donación
+        >
+          <Text style={styles.textoBotonContribuir}>Contribuir</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Resource Usage Section */}
+      {/* Gráfico de uso de recursos */}
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>Resource Usage</Text>
+        <Text style={styles.cardTitle}>Uso de Recursos</Text>
         <PieChart
           data={[
             {
-              name: 'Used',
-              population: 45,
+              name: 'Realizadas',
+              population: 1,
               color: '#FF6B6B',
               legendFontColor: '#333',
               legendFontSize: 14,
             },
             {
-              name: 'Available',
-              population: 55,
+              name: 'Pendientes',
+              population: 5,
               color: '#4CAF50',
               legendFontColor: '#333',
               legendFontSize: 14,
@@ -49,15 +64,15 @@ const ResourceManagementScreen = () => {
         />
       </View>
 
-      {/* Donations Over Time Section */}
+      {/* Donaciones a lo largo del tiempo */}
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>Donations Over Time</Text>
+        <Text style={styles.cardTitle}>Donaciones a lo Largo del Tiempo</Text>
         <LineChart
           data={{
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            labels: ['Jul', 'Ago', 'Sep', 'Oct', 'Nov'],
             datasets: [
               {
-                data: [10, 20, 15, 25, 30, 35],
+                data: [0, 0, 0, 0, 10],
                 color: (opacity = 1) => `rgba(255, 107, 107, ${opacity})`,
                 strokeWidth: 2,
               },
@@ -85,7 +100,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFF',
   },
-  header: {
+  encabezado: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -95,18 +110,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#EEE',
   },
-  headerTitle: {
+  tituloEncabezado: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
   },
-  addButton: {
+  botonContribuir: {
     backgroundColor: '#FF6B6B',
     paddingHorizontal: 15,
     paddingVertical: 8,
     borderRadius: 20,
   },
-  addButtonText: {
+  textoBotonContribuir: {
     color: '#FFF',
     fontWeight: 'bold',
   },
