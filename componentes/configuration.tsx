@@ -8,6 +8,8 @@ export type RootStackParamList = {
   CommunityHome: undefined;
   OrganizerHome: undefined;
   AddEvent: undefined;
+  Event: undefined;
+  Notification: undefined;
   Home: undefined;
   Events: undefined;
   Tasks: undefined;

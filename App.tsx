@@ -16,6 +16,8 @@ import UserProfileScreen from './componentes/UserProfileScreen';
 import TaskListScreen from './componentes/InitialTask';
 import ResourceManagementScreen from './componentes/ResourceManagement';
 import UserHomeScreen from './componentes/CommunityHome'; // Pantalla inicial del usuario // Crear post (usuarios)
+import InvitedEventsScreen from './componentes/InvitedEvent';
+import NotificationsScreen from './componentes/Notifications';
 
 // Definir las rutas del Stack
 type RootStackParamList = {
@@ -24,6 +26,8 @@ type RootStackParamList = {
   AdminHome: undefined;
   CommunityHome: undefined;
   OrganizerHome: undefined;
+  Eventos: undefined;
+  Notification: undefined;
   AddEvent: undefined;
   EventDetails: { eventId: string; eventTitle: string; eventDescription: string };
 };
@@ -88,14 +92,14 @@ function UserTabs() {
             case 'Home':
               iconName = 'home';
               break;
-            case 'Buscar':
-              iconName = 'search';
-              break;
-            case 'Crear':
-              iconName = 'add-circle-outline';
+            case 'Calendario':
+              iconName = 'calendar-outline'; // Aquí el cambio
               break;
             case 'Perfil':
               iconName = 'person';
+              break;
+            case 'Notificaciones':
+              iconName = 'notifications-outline';
               break;
             default:
               iconName = 'help';
@@ -109,9 +113,9 @@ function UserTabs() {
       })}
     >
       <Tab.Screen name="Home" component={UserHomeScreen} />
-      <Tab.Screen name="Buscar" component={UserHomeScreen} />
-      <Tab.Screen name="Crear" component={UserHomeScreen} />
+      <Tab.Screen name="Calendario" component={InvitedEventsScreen} />
       <Tab.Screen name="Perfil" component={UserProfileScreen} />
+      <Tab.Screen name="Notificaciones" component={NotificationsScreen} />
     </Tab.Navigator>
   );
 }
@@ -154,6 +158,12 @@ export default function App() {
             component={EventDetailsScreen}
             options={{ headerShown: false }}
           />
+          <Tab.Screen name="Eventos" 
+          component={InvitedEventsScreen}
+          options={{ headerShown: false }} />
+          <Tab.Screen name="Notificaciones" 
+          component={NotificationsScreen} 
+          options={{ headerShown: false }}/>
         </Stack.Navigator>
       </NavigationContainer>
     </EventProvider>
